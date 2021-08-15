@@ -232,7 +232,7 @@ namespace EStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Description,Price,Stock,CategoryId,Images")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Name,Description,Cost,Price,Stock,CategoryId,Images")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -284,7 +284,7 @@ namespace EStore.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Description,Price,Stock,CategoryId,Images")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Description,Cost,Price,Stock,CategoryId,Images")] Product product)
         {
             if (id != product.ProductId)
             {
