@@ -1,0 +1,51 @@
+﻿@model IEnumerable<EStore.Models.Order>
+
+@{
+    ViewData["Title"] = "ManageOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Manage Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    <a asp-action="UpdateStatus" asp-route-id="@item.OrderId">Update Status</a> |
+                    <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

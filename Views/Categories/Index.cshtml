@@ -1,0 +1,30 @@
+﻿@model IEnumerable<EStore.Models.Category>
+
+@{
+    ViewData["Title"] = "Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //this page is for customers 
+}
+
+<h1>Categories</h1>
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var category in Model)
+        {
+            <div class="col-md-4">
+                <a asp-controller="Products" asp-action="Index" asp-route-CategoryId="@category.CategoryId">
+                    <div class="card mb-3">
+                        <img class="card-img-top" src="~/@category.ThumbnailPath" alt="Card image cap" width="286" height="180">
+                        <div class="card-body">
+                            <h5 class="card-title">@category.Name</h5>
+                        </div>
+                    </div>
+                    </a>
+            </div>
+        }
+
+    </div>
+</div>

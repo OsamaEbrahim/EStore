@@ -1,0 +1,103 @@
+﻿@model IEnumerable<EStore.Models.Product>
+@using EStore.SharedClasses;
+
+
+@{
+    ViewData["Title"] = "Products List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pagination pager = new Pagination();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+        pager.Parameters = ViewBag.ParametersDictionary;
+    }
+
+    //this page is for admin
+}
+
+<h1>Products List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                @ViewData["CurrSort"]
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" asp-action="ProductsList" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-CategoryId="@ViewData["CategoryId"]" asp-route-sortOrder="NameAcending">Name: A-Z</a>
+                <a class="dropdown-item" asp-action="ProductsList" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-CategoryId="@ViewData["CategoryId"]" asp-route-sortOrder="NameDecending">Name: Z-A</a>
+                <a class="dropdown-item" asp-action="ProductsList" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-CategoryId="@ViewData["CategoryId"]" asp-route-sortOrder="PriceAcending">Price: Low-High</a>
+                <a class="dropdown-item" asp-action="ProductsList" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-CategoryId="@ViewData["CategoryId"]" asp-route-sortOrder="PriceDecending">Price: High-Low</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <form asp-action="ProductsList" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr style="">
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<partial name="_Pager" model="@pager" />
+

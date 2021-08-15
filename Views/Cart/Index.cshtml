@@ -1,0 +1,55 @@
+﻿@model EStore.Models.Order
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h4>Shopping Cart</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    SubTotal
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Details)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Name)
+                    </td>
+                    <td>
+                        <a asp-controller="Cart" asp-action="UpdateQuantity" asp-route-id="@item.OrderDetailId" asp-route-quantity="@(item.Quantity - 1)" class="btn btn-secondary">-</a>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                        <a asp-controller="Cart" asp-action="UpdateQuantity" asp-route-id="@item.OrderDetailId" asp-route-quantity="@(item.Quantity + 1)" class="btn btn-secondary">+</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubTotal)
+                    </td>
+                    <td>
+                        <a asp-controller="Cart" asp-action="DeleteFromCart" asp-route-id="@item.OrderDetailId" class="btn btn-danger">Remove</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<div>
+    <a asp-controller="Cart" asp-action="Checkout" asp-route-id="@Model.OrderId">Checkout</a> |
+    <a asp-controller="Products" asp-action="Index">Continue Shopping</a>
+</div>
