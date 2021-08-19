@@ -370,7 +370,7 @@ namespace EStore.Controllers
         public async Task<IActionResult> DeleteProductImage(int id)
         {
             var image = await _context.ProductImage.FindAsync(id);
-            fileManager.DeleteFile("Images/Products/" + image.Path);
+            fileManager.DeleteFile(image.Path);
             _context.ProductImage.Remove(image);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(ProductsList));

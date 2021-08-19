@@ -24,14 +24,16 @@ namespace EStore.Controllers
 
         public IActionResult Index()
         {
-            var recentlyAdded = _context.Product.Include(p =>p.ImagesPaths).OrderByDescending(i => i.ProductId).Take(3).ToList();
-            var lowInStock = _context.Product.Include(p => p.ImagesPaths).OrderBy(i => i.Stock).Take(3).ToList();
-
+            var recentlyAdded = _context.Product.Include(p => p.ImagesPaths.Take(1)).OrderByDescending(i => i.ProductId).Take(3).ToList();
+            var lowInStock = _context.Product.Include(p => p.ImagesPaths.Take(1)).OrderBy(i => i.Stock).Take(3).ToList();
+            //this query will count the products that are in cart also, and will not take into account the quantity ordered 
+            var mostSelling = _context.Product.Include(p => p.ImagesPaths.Take(1)).Include(d => d.InOrders).OrderByDescending(m => m.InOrders.Count()).Take(3).ToList();
 
             HomeViewModel HomeViewModel = new HomeViewModel()
             {
                 RecentlyAdded = recentlyAdded,
                 LowInStock = lowInStock,
+                MostSelling = mostSelling
             };
 
             return View(HomeViewModel);

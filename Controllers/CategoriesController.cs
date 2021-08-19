@@ -128,6 +128,7 @@ namespace EStore.Controllers
                     if (category.Thumbnail != null)
                     {
                         string path = "Images/Categories/" + category.Name + "/";
+                        fileManager.DeleteFolder(path);
                         await fileManager.UploadFile(path, category.Thumbnail);
                         category.ThumbnailPath = fileManager.FilePath;
                     }

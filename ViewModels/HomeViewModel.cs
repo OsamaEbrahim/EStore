@@ -10,5 +10,8 @@ namespace EStore.ViewModels
     {
         public ICollection<Product> RecentlyAdded { get; set; }
         public ICollection<Product> LowInStock { get; set; }
+        public ICollection<Product> MostSelling { get; set; }
+
+
     }
 }

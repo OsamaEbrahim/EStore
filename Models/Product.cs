@@ -18,6 +18,8 @@ namespace EStore.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public virtual ICollection<ProductImage> ImagesPaths { get; set; }
+        public virtual ICollection<OrderDetail> InOrders { get; set; }
+
         [NotMapped]
         public IFormFileCollection Images { get; set; }
 

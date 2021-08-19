@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace EStore.Controllers
 {
-    [Authorize(Roles ="Admin")]
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;

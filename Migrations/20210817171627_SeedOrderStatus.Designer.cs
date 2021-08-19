@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EStore.Data.Migrations
+namespace EStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210814061624_AddressToOrders")]
-    partial class AddressToOrders
+    [Migration("20210817171627_SeedOrderStatus")]
+    partial class SeedOrderStatus
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,6 +233,9 @@ namespace EStore.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -433,7 +436,7 @@ namespace EStore.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EStore.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("InOrders")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -534,6 +537,8 @@ namespace EStore.Data.Migrations
             modelBuilder.Entity("EStore.Models.Product", b =>
                 {
                     b.Navigation("ImagesPaths");
+
+                    b.Navigation("InOrders");
                 });
 #pragma warning restore 612, 618
         }

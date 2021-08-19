@@ -4,16 +4,14 @@ using EStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EStore.Data.Migrations
+namespace EStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210807091341_Category_Thumbnail")]
-    partial class Category_Thumbnail
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,11 +115,23 @@ namespace EStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BlockNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BuildingNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FlatNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderStatusID")
                         .HasColumnType("int");
+
+                    b.Property<string>("RoadNo")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Total")
                         .HasColumnType("float");
@@ -220,6 +230,9 @@ namespace EStore.Data.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -421,7 +434,7 @@ namespace EStore.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EStore.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("InOrders")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -522,6 +535,8 @@ namespace EStore.Data.Migrations
             modelBuilder.Entity("EStore.Models.Product", b =>
                 {
                     b.Navigation("ImagesPaths");
+
+                    b.Navigation("InOrders");
                 });
 #pragma warning restore 612, 618
         }
