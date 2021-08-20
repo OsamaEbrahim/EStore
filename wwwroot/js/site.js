@@ -8,11 +8,11 @@ function AddToCart(id){
         type: 'POST',
         url: '/Cart/AddToCart/' + id,
         dataType: 'json',
-        success: function () {
-            $("#Success").show().delay(2000).hide("slow");
+        success: function (response) {
+            $("#Success").text(response).show().delay(2000).hide("slow");
         },
         error: function () {
-            $("#Fail").show().delay(2000).hide("slow");
+            $("#Fail").text("Unable To Add To Cart").show().delay(2000).hide("slow");
         },
 
     });

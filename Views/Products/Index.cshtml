@@ -22,6 +22,12 @@
 <h1>Products</h1>
 
 <div class="container">
+    <div id="Success" class="alert alert-success" role="alert" style="display: none;text-align: center;">
+
+    </div>
+    <div id="Fail" class="alert alert-danger" role="alert" style="display: none;text-align: center;">
+
+    </div>
 
     <div class="row mb-4">
         <div class="col-md-6">
@@ -50,34 +56,28 @@
         </div>
     </div>
 
-        <div class="row">
-            @foreach (var product in Model)
-            {
-                <div class="col-md-4">
-                    <div class="card mb-3 border-secondary" style="width: 18rem;">
-                        @foreach (var pic in product.ImagesPaths)
-                        {
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3 border-secondary" style="width: 18rem;">
+                    @foreach (var pic in product.ImagesPaths)
+                    {
 
-                            <img class="card-img-top" src="~/@pic.Path" alt="Card image cap" width="250" height="250">
+                        <img class="card-img-top" src="~/@pic.Path" alt="Card image cap" width="250" height="250">
 
-                        }
+                    }
                     <div class="card-body">
                         <h5 class="card-title">@product.Name</h5>
                         <h6 class="card-subtitle mb-2 text-muted">@product.Price BD</h6>
                         <p class="card-text">@product.Description.</p>
                         <button class="btn btn-primary" onclick="AddToCart(@product.ProductId)">Add To Cart</button>
                         <a asp-controller="Products" asp-action="ProductPage" asp-route-name="@product.Name" class="btn btn-primary">View</a>
-                        <div id="Success" class="alert alert-success" role="alert" style="display: none">
-                            @product.Name Was Added To Cart!
-                        </div>
-                        <div id="Fail" class="alert alert-danger" role="alert" style="display: none">
-                            Unable To Add @product.Name To Cart!
-                        </div>
-                    </div>
                     </div>
                 </div>
-            }
+            </div>
+        }
 
-        </div>
-        <partial name="_Pager" model="@pager" />
     </div>
+    <partial name="_Pager" model="@pager" />
+</div>
