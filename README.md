@@ -7,9 +7,11 @@ To run the project you need to:
 
 2-Update the connection string in the appsettings.json folder.
 
-3-Run the Add-Migration "CreateSchema" command.
+3-Install the required packages(Right-Click on Dependencies/Packages and click update).
 
-4-Run Update-Database command.
+4-Run the Add-Migration "CreateSchema" command.
+
+5-Run Update-Database command.
 
 Notes:
 
