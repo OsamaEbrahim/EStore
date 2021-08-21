@@ -48,7 +48,7 @@ namespace EStore.Controllers
         {
             var res = _context.Order.Where(s => s.status.Name == "Placed" || s.status.Name == "Shipped" || s.status.Name == "Delivered").
                 Where(c => c.CreatedAt >= DateTime.Now.Date.AddDays(-7)).GroupBy(o => o.CreatedAt.Date).
-                Select(r => new { Date = r.Key, Revenue = r.Sum(t => t.Total) }).ToList();
+                Select(r => new { Date = r.Key.Date.ToShortDateString(), Revenue = r.Sum(t => t.Total) }).ToList();
 
             return Json(res);
         }

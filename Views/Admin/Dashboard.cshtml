@@ -1,30 +1,124 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card border-secondary">
-
+﻿<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                Total Orders
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-secondary">
 
+            <div class="card-body">
+                <canvas class="my-4 h-25" id="TotalOrders"></canvas>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-secondary">
 
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-secondary">
-
-            </div>
         </div>
     </div>
+
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                Revenue in the last 7 days
+            </div>
+
+            <div class="card-body">
+                <canvas class="my-4 h-25" id="SevenDaysRevenue"></canvas>
+            </div>
+
+        </div>
+    </div>
+
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Admin/chtSevenDaysRevenue",
+            success: function (response) {
+                const dates = [];
+                const revenue = []
+                response.forEach(function (item) {
+                    dates.push(item.date);
+                    revenue.push(item.revenue);
+                });
+                console.log(dates);
+                console.log(revenue);
+                var revenuechart = document.getElementById('SevenDaysRevenue').getContext('2d');
+                new Chart(revenuechart, {
+                    type: 'bar',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Revenue(BD)',
+                            data: revenue,
+                            backgroundColor: 'rgba(255, 99, 132, 1)'
+                        }]
+                    },
+                    // The axis titles are not showing 
+                    options: {
+                        scales: {
+                            y: [{
+                                title: {
+                                    display: true,
+                                    text: '(BD)',
+                                },
+
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            x: [{
+                                title: {
+                                    display: true,
+                                    text: 'Date',
+                                }
+                            }]
+                        }
+                    }
+                });
+            },
+
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Admin/chtOrdersByStatus",
+            success: function (response) {
+                const type = [];
+                const count = []
+                response.forEach(function (item) {
+                    type.push(item.orderType);
+                    count.push(item.numOfOrders);
+                });
+                console.log(type);
+                console.log(count);
+                var revenuechart = document.getElementById('TotalOrders').getContext('2d');
+                new Chart(revenuechart, {
+                    type: 'pie',
+                    data: {
+                        labels: type,
+                        datasets: [{
+                            label: 'Orders',
+                            data: count,
+                            backgroundColor: [
+                                'rgba(172, 172, 162, 1)',
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)'
+                            ]
+                        }]
+                    }
+                });
+            },
+
+        });
+    });
+</script>
