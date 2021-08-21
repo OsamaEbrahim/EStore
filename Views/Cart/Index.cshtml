@@ -7,6 +7,9 @@
 
 <div class="container">
     <h4>Shopping Cart</h4>
+    <br />
+    <a asp-controller="Products" asp-action="Index" class="btn btn-primary float-left">Continue Shopping</a>
+    <br />
     <table class="table">
         <thead>
             <tr>
@@ -44,12 +47,12 @@
 
                 </tr>
             }
+
         </tbody>
     </table>
 
 </div>
 
 <div>
-    <a asp-controller="Cart" asp-action="Checkout" asp-route-id="@Model.OrderId">Checkout</a> |
-    <a asp-controller="Products" asp-action="Index">Continue Shopping</a>
+    <a asp-controller="Cart" asp-action="Checkout" asp-route-id="@Model.OrderId" class="btn btn-success btn-block">Checkout</a>
 </div>
