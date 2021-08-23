@@ -48,6 +48,11 @@ namespace EStore.Controllers
                 return Json("Product Does not exist");
             }
 
+            if(product.Stock == 0)
+            {
+                return Json("Product is out of stock");
+            }
+
             if (Cart != null)
             {
                 var item = await _context.OrderDetail.Where(i => i.OrderId == Cart.OrderId && i.ProductID == id).FirstOrDefaultAsync();
@@ -85,19 +90,42 @@ namespace EStore.Controllers
 
                 await _context.AddAsync(order);
             }
+            product.Stock--;
+            _context.Update(product);
             await _context.SaveChangesAsync();
             return Json(product.Name + " was added to cart");
         }
 
         public async Task<IActionResult> UpdateQuantity(int id, int quantity)
         {
-            if(quantity != 0)
+
+
+            if (quantity == 0)
+            {
+                await DeleteFromCart(id);
+            }
+            else
             {
                 var item = await _context.OrderDetail.Where(i => i.OrderDetailId == id).FirstOrDefaultAsync();
                 var product = await _context.Product.Where(i => i.ProductId == item.ProductID).FirstOrDefaultAsync();
-                item.Quantity = quantity;
-                item.SubTotal = product.Price * quantity;
-                _context.Update(item);
+
+                if (item.Quantity < quantity && product.Stock > 0)
+                {
+                    product.Stock--;
+                    item.Quantity = quantity;
+                    item.SubTotal = product.Price * quantity;
+                    _context.Update(item);
+                    _context.Update(product);
+                }
+                else if(item.Quantity > quantity)
+                {
+                    product.Stock++;
+                    item.Quantity = quantity;
+                    item.SubTotal = product.Price * quantity;
+                    _context.Update(item);
+                _context.Update(product);
+                }
+
                 await _context.SaveChangesAsync();
 
             }
@@ -107,8 +135,11 @@ namespace EStore.Controllers
 
         public async Task<IActionResult> DeleteFromCart(int id)
         {
-            var item = await _context.OrderDetail.FindAsync(id);
+            var item = await _context.OrderDetail.Where(i => i.OrderDetailId == id).FirstOrDefaultAsync();
+            var product = await _context.Product.Where(i => i.ProductId == item.ProductID).FirstOrDefaultAsync();
+            product.Stock += item.Quantity;
             _context.Remove(item);
+            _context.Update(product);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

@@ -97,10 +97,10 @@ namespace EStore.Data
                 new Product { ProductId = 1, Name = "2080 TI", Description = "High End GPU", Cost = 555, Price = 800, Stock = 10 , CategoryId = 1  },
                 new Product { ProductId = 2, Name = "1050 TI", Description = "Budget GPU", Cost = 40, Price = 55, Stock = 100, CategoryId = 1 },
                 new Product { ProductId = 3, Name = "1080 TI", Description = "Mid Tier GPU", Cost = 200, Price = 270, Stock = 35, CategoryId = 1 },
-                new Product { ProductId = 4, Name = "3090", Description = "High End GPU", Cost = 600, Price = 850, Stock = 5, CategoryId = 1 },
-                new Product { ProductId = 5, Name = "MSI GeForce RTX 3070", Description = "High End GPU", Cost = 450, Price = 600, Stock = 20, CategoryId = 1 },
+                new Product { ProductId = 4, Name = "3090", Description = "High End GPU", Cost = 600, Price = 850, Stock = 0, CategoryId = 1 },
+                new Product { ProductId = 5, Name = "MSI GeForce RTX 3070", Description = "High End GPU", Cost = 450, Price = 600, Stock = 0, CategoryId = 1 },
                 new Product { ProductId = 6, Name = "Intel 6600", Description = "Budget CPU", Cost = 60, Price = 70, Stock = 40, CategoryId = 2 },
-                new Product { ProductId = 7, Name = "AMD Ryzen 5 5600X", Description = "Mid Tier CPU", Cost = 200, Price = 270, Stock = 35, CategoryId = 2 },
+                new Product { ProductId = 7, Name = "AMD Ryzen 5 5600X", Description = "Mid Tier CPU", Cost = 200, Price = 270, Stock = 0, CategoryId = 2 },
                 new Product { ProductId = 8, Name = "EVGA SuperNOVA 750", Description = "Fully Modular", Cost = 50, Price = 65, Stock = 40, CategoryId = 3 },
                 new Product { ProductId = 9, Name = "ROG Strix Z590-E", Description = "Gaming Motherboard", Cost = 220, Price = 350, Stock = 20, CategoryId = 4 },
                 new Product { ProductId = 10, Name = "ASUS ROG Strix B550-F", Description = "Gaming Motherboard", Cost = 200, Price = 300, Stock = 15, CategoryId = 4 }

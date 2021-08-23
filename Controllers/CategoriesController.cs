@@ -10,7 +10,7 @@ using EStore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using EStore.SharedClasses;
+using EStore.Services;
 
 namespace EStore.Controllers
 {

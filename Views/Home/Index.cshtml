@@ -23,13 +23,13 @@
                         <img class="card-img-top" src="~/@pic.Path" alt="Card image cap" width="250" height="250">
 
                     }
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@product.Price BD</h6>
-                        <p class="card-text">@product.Description.</p>
-                        <button class="btn btn-primary" onclick="AddToCart(@product.ProductId)">Add To Cart</button>
-                        <a asp-controller="Products" asp-action="ProductPage" asp-route-name="@product.Name" class="btn btn-primary">View</a>
-                    </div>
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@product.Price BD @if (product.Stock == 0){<span style="color:red">Out of Stock</span>}</h6>
+                    <p class="card-text">@product.Description.</p>
+                        <button @Html.Raw(product.Stock != 0?"":"disabled='disabled'") class="btn btn-primary" onclick="AddToCart(@product.ProductId)">Add To Cart</button>
+                    <a asp-controller="Products" asp-action="ProductPage" asp-route-name="@product.Name" class="btn btn-primary">View</a>
+                </div>
                 </div>
             </div>
         }
@@ -49,9 +49,9 @@
                     }
                     <div class="card-body">
                         <h5 class="card-title">@product.Name</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@product.Price BD</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">@product.Price BD @if (product.Stock == 0){<span style="color:red">Out of Stock</span>}</h6>
                         <p class="card-text">@product.Description.</p>
-                        <button class="btn btn-primary" onclick="AddToCart(@product.ProductId)">Add To Cart</button>
+                        <button @Html.Raw(product.Stock != 0?"":"disabled='disabled'") class="btn btn-primary" onclick="AddToCart(@product.ProductId)">Add To Cart</button>
                         <a asp-controller="Products" asp-action="ProductPage" asp-route-name="@product.Name" class="btn btn-primary">View</a>
                     </div>
                 </div>
@@ -73,9 +73,9 @@
                     }
                     <div class="card-body">
                         <h5 class="card-title">@product.Name</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@product.Price BD</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">@product.Price BD @if (product.Stock == 0){<span style="color:red">Out of Stock</span>}</h6>  
                         <p class="card-text">@product.Description.</p>
-                        <button class="btn btn-primary" onclick="AddToCart(@product.ProductId)">Add To Cart</button>
+                        <button @Html.Raw(product.Stock != 0?"":"disabled='disabled'") class="btn btn-primary" onclick="AddToCart(@product.ProductId)">Add To Cart</button>
                         <a asp-controller="Products" asp-action="ProductPage" asp-route-name="@product.Name" class="btn btn-primary">View</a>
                     </div>
                 </div>
