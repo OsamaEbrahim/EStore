@@ -116,6 +116,7 @@ namespace EStore.Controllers
                     item.SubTotal = product.Price * quantity;
                     _context.Update(item);
                     _context.Update(product);
+                    await _context.SaveChangesAsync();
                 }
                 else if(item.Quantity > quantity)
                 {
@@ -123,10 +124,9 @@ namespace EStore.Controllers
                     item.Quantity = quantity;
                     item.SubTotal = product.Price * quantity;
                     _context.Update(item);
-                _context.Update(product);
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
                 }
-
-                await _context.SaveChangesAsync();
 
             }
 

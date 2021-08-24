@@ -18,6 +18,9 @@
                     Product
                 </th>
                 <th>
+                    Unit Price
+                </th>
+                <th>
                     Quantity
                 </th>
                 <th>
@@ -28,22 +31,25 @@
         <tbody>
             @foreach (var item in Model.Details)
             {
-                <tr>
+            <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Product.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SubTotal)
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubTotal)
+                </td>
 
 
-                </tr>
+            </tr>
             }
-            <tr><td></td><td>Total:</td><td>@Model.Total BD</td></tr>
+            <tr><td></td><td></td><td>Total:</td><td>@Model.Total BD</td></tr>
         </tbody>
     </table>
     <div class="row">
