@@ -9,6 +9,9 @@ using EStore.Data;
 using EStore.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using EStore.Services;
 
 namespace EStore.Controllers
 {
@@ -16,10 +19,14 @@ namespace EStore.Controllers
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public IConfiguration Configuration { get; }
 
-        public CartController(ApplicationDbContext context)
+
+        public CartController(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
+
         }
 
         public async Task<IActionResult> Index()
@@ -43,7 +50,8 @@ namespace EStore.Controllers
             var Cart = await _context.Order.Where(e => e.User.Id == user && e.status.Name == "InCart").FirstOrDefaultAsync();
             var product = await _context.Product.Where(i => i.ProductId == id).FirstOrDefaultAsync();
 
-            if(product == null)
+
+            if (product == null)
             {
                 return Json("Product Does not exist");
             }
@@ -159,7 +167,7 @@ namespace EStore.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(int id, [Bind("OrderId,BlockNo,RoadNo,BuildingNo,FlatNo")] Order orderChanges)
         {
-            var order = await _context.Order.Where(i => i.OrderId == id).FirstOrDefaultAsync();
+            var order = await _context.Order.Where(i => i.OrderId == id).Include(u => u.User).FirstOrDefaultAsync();
 
             if (order.OrderId != orderChanges.OrderId)
             {
@@ -178,6 +186,10 @@ namespace EStore.Controllers
                     order.OrderStatusID++;
                     _context.Update(order);
                     await _context.SaveChangesAsync();
+                    string subject = "Order has been placed";
+                    string body = "Your order #" + order.OrderId + " has been placed successfully";
+                    var emailSender = new EmailsSender(Configuration);
+                    emailSender.SendEmail(order.User.Email, subject, body);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -25,6 +25,19 @@
         </div>
     </div>
 
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                Products sold per category in the last 30 days
+            </div>
+
+            <div class="card-body">
+                <canvas class="my-4 h-25" id="ThirtyDaysSales"></canvas>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
@@ -107,6 +120,43 @@
                         labels: type,
                         datasets: [{
                             label: 'Orders',
+                            data: count,
+                            backgroundColor: [
+                                'rgba(172, 172, 162, 1)',
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)'
+                            ]
+                        }]
+                    }
+                });
+            },
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/Admin/chtThirtyDaysSales",
+            success: function (response) {
+                const category = [];
+                const count = []
+                response.forEach(function (item) {
+                    category.push(item.category);
+                    count.push(item.itemsSold);
+                });
+                console.log(category);
+                console.log(count);
+                var revenuechart = document.getElementById('ThirtyDaysSales').getContext('2d');
+                new Chart(revenuechart, {
+                    type: 'pie',
+                    data: {
+                        labels: category,
+                        datasets: [{
+                            label: 'Count',
                             data: count,
                             backgroundColor: [
                                 'rgba(172, 172, 162, 1)',

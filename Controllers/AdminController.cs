@@ -53,5 +53,13 @@ namespace EStore.Controllers
             return Json(res);
         }
 
+        public JsonResult chtThirtyDaysSales()
+        {
+            var res = _context.OrderDetail.Where(o => o.Order.CreatedAt >= DateTime.Now.Date.AddDays(-30)).GroupBy(g => g.Product.Category.Name).
+                Select(r => new { Category = r.Key, ItemsSold = r.Sum(s => s.Quantity) }).ToList();
+
+            return Json(res);
+        }
+
     }
 }

@@ -9,16 +9,23 @@ using EStore.Data;
 using EStore.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using EStore.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace EStore.Controllers
 {
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public IConfiguration Configuration { get; }
 
-        public OrdersController(ApplicationDbContext context)
+
+
+        public OrdersController(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
+
         }
 
         // GET: Orders
@@ -165,7 +172,7 @@ namespace EStore.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatus(int id, [Bind("OrderId,OrderStatusID")] Order orderChanges)
         {
-            var order = await _context.Order.Where(i => i.OrderId == id).FirstOrDefaultAsync();
+            var order = await _context.Order.Where(i => i.OrderId == id).Include(u => u.User).Include(s => s.status).FirstOrDefaultAsync();
             if (order.OrderId != orderChanges.OrderId)
             {
                 return NotFound();
@@ -191,6 +198,10 @@ namespace EStore.Controllers
                         throw;
                     }
                 }
+                string subject = "Order #" + order.OrderId + " Status Update";
+                string body = "Your order status has been updated";
+                var emailSender = new EmailsSender(Configuration);
+                emailSender.SendEmail(order.User.Email, subject, body);
                 return RedirectToAction(nameof(ManageOrders));
             }
             ViewData["Status"] = new SelectList(_context.OrderStatus.Where(o => o.Name != "InCart" || o.Name != "Placed"), "OrderStatusId", "Name", orderChanges.OrderStatusID);

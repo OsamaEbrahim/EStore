@@ -11,8 +11,15 @@ function AddToCart(id){
         success: function (response) {
             $("#Success").text(response).show().delay(2000).hide("slow");
         },
-        error: function () {
-            $("#Fail").text("Unable To Add To Cart").show().delay(2000).hide("slow");
+        error: function (xhr) {
+            if (xhr.status == 403)
+            {
+                $("#Fail").text("Only customers can perform this action").show().delay(2000).hide("slow");
+            }
+            else
+            {
+                $("#Fail").text("Please login to perfrom this action").show().delay(2000).hide("slow");
+            }
         },
 
     });
